@@ -1,20 +1,20 @@
-From 24bbebbcbeebb57a60eb67557281455302003f28 Mon Sep 17 00:00:00 2001
+From 1b0dee5f41de2fe950303a342c993581b932232f Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwelk@xhochy.com>
 Date: Sun, 21 Mar 2021 20:11:25 +0100
 Subject: [PATCH] Build against system libprotobuf
 
 ---
- MODULE.bazel         | 8 +++++++-
- compiler/BUILD.bazel | 1 +
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ MODULE.bazel         | 12 +++++++++++-
+ compiler/BUILD.bazel |  1 +
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/MODULE.bazel b/MODULE.bazel
-index 6034132..5e35b5b 100644
+index 874451f..ad9b82a 100644
 --- a/MODULE.bazel
 +++ b/MODULE.bazel
-@@ -50,11 +50,17 @@ bazel_dep(name = "bazel_jar_jar", version = "0.1.11.bcr.1")
+@@ -51,11 +51,21 @@ bazel_dep(name = "bazel_jar_jar", version = "0.1.11.bcr.1")
  bazel_dep(name = "bazel_skylib", version = "1.7.1")
- bazel_dep(name = "googleapis", version = "0.0.0-20240326-1c8d509c5", repo_name = "com_google_googleapis")
+ bazel_dep(name = "googleapis", version = "0.0.0-20260514-1dbb1a14", repo_name = "com_google_googleapis")
  bazel_dep(name = "grpc-proto", version = "0.0.0-20240627-ec30f58.bcr.1", repo_name = "io_grpc_grpc_proto")
 -bazel_dep(name = "protobuf", version = "33.4", repo_name = "com_google_protobuf")
 +bazel_dep(name = "platforms", version = "1.0.0")
@@ -24,6 +24,10 @@ index 6034132..5e35b5b 100644
  bazel_dep(name = "rules_jvm_external", version = "6.0")
  
 +local_path_override(
++    module_name = "abseil-cpp",
++    path = "./third_party/systemlibs/absl",
++)
++local_path_override(
 +    module_name = "protobuf",
 +    path = "./third_party/systemlibs/protobuf",
 +)
@@ -32,14 +36,14 @@ index 6034132..5e35b5b 100644
  maven.install(
      artifacts = IO_GRPC_GRPC_JAVA_ARTIFACTS,
 diff --git a/compiler/BUILD.bazel b/compiler/BUILD.bazel
-index e8a0571..e640e8b 100644
+index a9ffe77..a3de998 100644
 --- a/compiler/BUILD.bazel
 +++ b/compiler/BUILD.bazel
 @@ -14,6 +14,7 @@ cc_binary(
      visibility = ["//visibility:public"],
      deps = [
-         "@com_google_protobuf//:protoc_lib",
+         "@abseil-cpp//absl/strings",
 +        "@com_google_protobuf//:protobuf",
+         "@com_google_protobuf//:protoc_lib",
      ],
  )
- 
