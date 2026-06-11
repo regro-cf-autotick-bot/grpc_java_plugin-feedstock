@@ -9,14 +9,13 @@ cp -ap "${PREFIX}/share/bazel/systemlibs/protobuf" third_party/systemlibs/
 cp -ap "${PREFIX}/share/bazel/protobuf/bazel" third_party/systemlibs/protobuf/
 
 
-export ABSEIL_VERSION="$(conda list -p "${PREFIX}" libabseil --fields version | awk '!/^#/ && NF { print $1; exit }')"
-export PROTOC_VERSION="$(conda list -p "${PREFIX}" libprotobuf --fields version | awk '!/^#/ && NF { print $1; exit }' | sed -E 's/^[0-9]+\.([0-9]+\.[0-9]+)$/\1/')"
+export ABSEIL_VERSION="$(grep '"version"' ${PREFIX}/conda-meta/libabseil-*.json | awk -F'"' '{print $(NF-1)}' | head -1)"
+export PROTOC_VERSION="$(grep '"version"' ${PREFIX}/conda-meta/libprotobuf-*.json | awk -F'"' '{print $(NF-1)}' | head -1 | sed -E 's/^[0-9]+\.([0-9]+\.[0-9]+)$/\1/')"
 sed -i "s:ABSEIL_VERSION:${ABSEIL_VERSION}:" \
     MODULE.bazel \
     third_party/systemlibs/protobuf/MODULE.bazel
 sed -i "s:PROTOC_VERSION:${PROTOC_VERSION}:" \
     MODULE.bazel
-
 
 if [[ "${target_platform}" == osx-* ]]; then
     # See https://conda-forge.org/docs/maintainer/knowledge_base.html#newer-c-features-with-old-sdk
