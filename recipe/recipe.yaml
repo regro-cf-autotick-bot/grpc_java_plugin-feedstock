@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "1.82.0"
+  version: "1.82.1"
   bz_version: "8.6.0"
   bz_base_url: https://github.com/bazelbuild/bazel/releases/download
 
@@ -11,7 +11,7 @@ package:
 
 source:
   - url: https://github.com/grpc/grpc-java/archive/refs/tags/v${{ version }}.tar.gz
-    sha256: 079bdef3cb6343e5036e3dd86ce2f535a667e5df540e2b51284b47bfd00a359f
+    sha256: 5b0b193657e0e4c38ff37133d7710c020e595cce5e8aadfbc7410eee11ebdb8f
     patches:
       - patches/0001-Build-against-system-libprotobuf.patch
   - if: build_platform == "linux-64"
