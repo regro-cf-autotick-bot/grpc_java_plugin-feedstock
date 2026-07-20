@@ -36,7 +36,7 @@ source:
       file_name: bazel
 
 build:
-  number: 0
+  number: 1
   skip: win
 
 requirements:
@@ -47,7 +47,7 @@ requirements:
     - openjdk
     - if: linux
       then: openjdk 21.*
-    - bazel-toolchain >=0.5.8
+    - bazel-toolchain >=0.5.11
     - libprotobuf
     - sed
   host:
