@@ -47,7 +47,7 @@ requirements:
     - openjdk
     - if: linux
       then: openjdk 21.*
-    - bazel-toolchain >=0.5.8
+    - bazel-toolchain >=0.5.11
     - libprotobuf
     - sed
   host:
