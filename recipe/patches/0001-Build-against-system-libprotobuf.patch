@@ -1,4 +1,4 @@
-From 1b0dee5f41de2fe950303a342c993581b932232f Mon Sep 17 00:00:00 2001
+From 2914e8bccab94dbea35b17326e9a3665a8798702 Mon Sep 17 00:00:00 2001
 From: "Uwe L. Korn" <uwelk@xhochy.com>
 Date: Sun, 21 Mar 2021 20:11:25 +0100
 Subject: [PATCH] Build against system libprotobuf
@@ -9,16 +9,18 @@ Subject: [PATCH] Build against system libprotobuf
  2 files changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/MODULE.bazel b/MODULE.bazel
-index 874451f..ad9b82a 100644
+index 0a7b0f4ee..710187de6 100644
 --- a/MODULE.bazel
 +++ b/MODULE.bazel
-@@ -51,11 +51,21 @@ bazel_dep(name = "bazel_jar_jar", version = "0.1.11.bcr.1")
+@@ -54,13 +54,23 @@ bazel_dep(name = "bazel_jar_jar", version = "0.1.11.bcr.1")
  bazel_dep(name = "bazel_skylib", version = "1.7.1")
  bazel_dep(name = "googleapis", version = "0.0.0-20260514-1dbb1a14", repo_name = "com_google_googleapis")
  bazel_dep(name = "grpc-proto", version = "0.0.0-20240627-ec30f58.bcr.1", repo_name = "io_grpc_grpc_proto")
--bazel_dep(name = "protobuf", version = "33.4", repo_name = "com_google_protobuf")
+-bazel_dep(name = "protobuf", version = "35.1", repo_name = "com_google_protobuf")
 +bazel_dep(name = "platforms", version = "1.0.0")
 +bazel_dep(name = "protobuf", version = "PROTOC_VERSION", repo_name = "com_google_protobuf")
+ bazel_dep(name = "rules_proto", version = "7.1.0")
+ bazel_dep(name = "rules_android", version = "0.7.3")
  bazel_dep(name = "rules_cc", version = "0.0.9")
  bazel_dep(name = "rules_java", version = "9.1.0")
  bazel_dep(name = "rules_jvm_external", version = "6.0")
@@ -32,11 +34,11 @@ index 874451f..ad9b82a 100644
 +    path = "./third_party/systemlibs/protobuf",
 +)
 +
- maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
- maven.install(
-     artifacts = IO_GRPC_GRPC_JAVA_ARTIFACTS,
+ android_sdk_repository_extension = use_extension(
+     "@rules_android//rules/android_sdk_repository:rule.bzl",
+     "android_sdk_repository_extension",
 diff --git a/compiler/BUILD.bazel b/compiler/BUILD.bazel
-index a9ffe77..a3de998 100644
+index a9ffe77a5..a3de998eb 100644
 --- a/compiler/BUILD.bazel
 +++ b/compiler/BUILD.bazel
 @@ -14,6 +14,7 @@ cc_binary(
